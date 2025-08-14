@@ -1,0 +1,123 @@
+Thistle Munch — Streetwear • Entertainment • Tutoring /* Custom tweaks */ .container { max-width: 1120px; } .btn { @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold shadow hover:shadow-lg transition; } .btn-primary { @apply bg-purple-700 text-white hover:bg-purple-800; } .btn-ghost { @apply bg-white text-purple-700 border border-purple-200 hover:border-purple-400; } .chip { @apply inline-block rounded-full bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1; } 
+
+TM
+
+Thistle Munch 
+
+Shop
+
+Entertainment
+
+Tutoring
+
+Contact
+
+Cart (0)
+
+Menu 
+
+Shop Entertainment Tutoring Contact Cart (0) 
+
+Playful • Quirky • Streetwear
+
+Welcome to Thistle Munch
+
+Streetwear store + entertainment bookings + tutoring services — all in one place. Built mobile‑first for fast browsing and quick bookings.
+
+Shop Collection Book Entertainment Find a Tutor 
+
+TM
+
+Your brand visual goes here. Replace this block with your hero photo when ready.
+
+Shop
+
+Add items to cart. This demo uses localStorage — no backend required.
+
+All T‑Shirts Hoodies Caps 
+
+<div id="productGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div> </div> 
+
+Entertainment Bookings
+
+Book DJs, hosts, or performers. We’ll confirm within 24 hours.
+
+• Club, festival, private events
+
+• Sound & lighting on request
+
+• Travel within South Africa
+
+Name Email 
+
+Event Date City/Town TypeClubPrivateFestival 
+
+Details Request Booking 
+
+Recent Events
+
+Campus Bash — Pretoria
+
+Headlined by Thistle Munch DJs • Crowd 1.5k
+
+Street Culture Fest — JHB
+
+Pop‑up shop + performances
+
+Tutoring Services
+
+Grade 8–12 • CAPS aligned • Online or in‑person.
+
+Maths
+
+Algebra, geometry, trigonometry
+
+Natural Sciences
+
+Life & physical sciences
+
+Technology
+
+Mechanical systems, electrics
+
+English
+
+Reading & exam prep
+
+Rates
+
+Online: R180/hr • In‑person: R250/hr (Johannesburg/Pretoria)
+
+Discounts for bundles (5 or 10 lessons)
+
+Book a Lesson
+
+Student Name Guardian Email 
+
+SubjectMathsNatural SciencesTechnologyEnglish ModeOnlineIn‑person Preferred Date 
+
+Notes Request Lesson 
+
+Contact
+
+Phone: 076 620 0524 • 068 073 8755
+
+Email: gilbertncube0334@gmail.com
+
+Business hours: Mon–Sat, 09:00–19:00 (SAST)
+
+Quick Message
+
+Your Email Message Send 
+
+© Thistle Munch. All rights reserved.
+
+Your Cart
+
+Close 
+
+Total R0 
+
+Checkout (Demo) 
+
+document.documentElement.classList.add('scroll-smooth'); .input{ @apply w-full rounded-2xl border border-purple-200/70 bg-white px-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-purple-200; } // -------- Mobile menu -------- const openMenu = document.getElementById('openMenu'); const mobileMenu = document.getElementById('mobileMenu'); openMenu?.addEventListener('click',()=>mobileMenu.classList.toggle('hidden')); // -------- Products (demo data) -------- const PRODUCTS = [ {id:'tee-black', name:'Thistle Tee — Black', price:249, type:'tee', img:'https://picsum.photos/seed/tmtee/640/480'}, {id:'tee-purple', name:'Thistle Tee — Purple', price:259, type:'tee', img:'https://picsum.photos/seed/tmtee2/640/480'}, {id:'hoodie-classic', name:'Classic Hoodie', price:599, type:'hoodie', img:'https://picsum.photos/seed/tmhood/640/480'}, {id:'cap-logo', name:'Logo Cap', price:199, type:'cap', img:'https://picsum.photos/seed/tmcap/640/480'}, {id:'hoodie-yellow', name:'Sun Hoodie', price:619, type:'hoodie', img:'https://picsum.photos/seed/tmhood2/640/480'}, {id:'cap-purple', name:'Purple Cap', price:209, type:'cap', img:'https://picsum.photos/seed/tmcap2/640/480'} ]; const grid = document.getElementById('productGrid'); function renderProducts(filter='all'){ const list = PRODUCTS.filter(p=> filter==='all' || p.type===filter); grid.innerHTML = list.map(p=>` <div class="rounded-3xl border border-purple-200 overflow-hidden bg-white shadow group"> <img src="${p.img}" alt="${p.name}" class="h-52 w-full object-cover"/> <div class="p-5 grid gap-3"> <h3 class="font-bold">${p.name}</h3> <div class="flex items-center justify-between"> <span class="font-semibold">R${p.price}</span> <select id="size-${p.id}" class="input w-36"> <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option> </select> </div> <button class="btn btn-primary" onclick="addToCart('${p.id}')">Add to Cart</button> </div> </div>`).join(''); } renderProducts(); document.getElementById('filterAll').onclick = ()=>renderProducts('all'); document.getElementById('filterTees').onclick = ()=>renderProducts('tee'); document.getElementById('filterHoodies').onclick = ()=>renderProducts('hoodie'); document.getElementById('filterCaps').onclick = ()=>renderProducts('cap'); // -------- Cart (localStorage) -------- const CART_KEY = 'tm_cart_v1'; const cartCount = document.getElementById('cartCount'); const cartCountMobile = document.getElementById('cartCountMobile'); const cartItemsEl = document.getElementById('cartItems'); const cartTotalEl = document.getElementById('cartTotal'); function getCart(){ return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } function setCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); updateCartCount(); } function updateCartCount(){ const c = getCart().reduce((a,i)=>a+i.qty,0); cartCount.textContent = c; cartCountMobile.textContent = c; } function addToCart(id){ const product = PRODUCTS.find(p=>p.id===id); const size = document.getElementById('size-'+id)?.value || 'M'; let cart = getCart(); const idx = cart.findIndex(i=> i.id===id && i.size===size); if(idx>-1) cart[idx].qty += 1; else cart.push({id, size, qty:1}); setCart(cart); renderCart(); openCart(); } function removeFromCart(index){ let cart = getCart(); cart.splice(index,1); setCart(cart); renderCart(); } function changeQty(index, delta){ let cart = getCart(); cart[index].qty = Math.max(1, cart[index].qty+delta); setCart(cart); renderCart(); } function renderCart(){ const cart = getCart(); if(cart.length===0){ cartItemsEl.innerHTML = '<p class="text-slate-600">Your cart is empty.</p>'; cartTotalEl.textContent = 'R0'; return; } let total = 0; cartItemsEl.innerHTML = cart.map((item, index)=>{ const p = PRODUCTS.find(x=>x.id===item.id); const line = p.price * item.qty; total += line; return `<div class='grid grid-cols-[64px,1fr,auto] gap-3 items-center border rounded-2xl p-3'> <img src='${p.img}' alt='' class='h-16 w-16 object-cover rounded-xl'> <div> <div class='font-semibold'>${p.name}</div> <div class='text-sm text-slate-600'>Size: ${item.size}</div> <div class='flex items-center gap-2 mt-1'> <button class='btn btn-ghost px-3 py-1' onclick='changeQty(${index}, -1)'>−</button> <span>${item.qty}</span> <button class='btn btn-ghost px-3 py-1' onclick='changeQty(${index}, 1)'>+</button> </div> </div> <div class='text-right'> <div class='font-semibold'>R${line}</div> <button class='text-sm text-purple-700 underline' onclick='removeFromCart(${index})'>Remove</button> </div> </div>` }).join(''); cartTotalEl.textContent = 'R'+total; } // Drawer open/close const openCartBtn = document.getElementById('openCart'); const openCartMobileBtn = document.getElementById('openCartMobile'); const cartDrawer = document.getElementById('cartDrawer'); const closeCart = document.getElementById('closeCart'); const closeCartBtn = document.getElementById('closeCartBtn'); function openCart(){ cartDrawer.classList.remove('hidden'); renderCart(); } function hideCart(){ cartDrawer.classList.add('hidden'); } openCartBtn?.addEventListener('click', openCart); openCartMobileBtn?.addEventListener('click', openCart); closeCart?.addEventListener('click', hideCart); closeCartBtn?.addEventListener('click', hideCart); // Checkout (demo) document.getElementById('checkoutBtn').addEventListener('click', ()=>{ const msg = document.getElementById('checkoutMsg'); msg.textContent = 'Demo checkout — connect a gateway like PayFast, PayStack, or Stripe when ready.'; msg.classList.remove('hidden'); }); // -------- Forms (fake submit -> show success) -------- function fakeSubmit(formId, msgId){ const form = document.getElementById(formId); const msg = document.getElementById(msgId); form.addEventListener('submit', (e)=>{ e.preventDefault(); const data = Object.fromEntries(new FormData(form).entries()); console.log('Form submit', formId, data); msg.textContent = 'Thanks! We\'ll get back to you shortly.'; msg.className = 'text-green-700 bg-green-50 border border-green-200 rounded-2xl px-3 py-2'; form.reset(); }); } fakeSubmit('entForm', 'entMsg'); fakeSubmit('tutorForm', 'tutorMsg'); fakeSubmit('contactForm', 'contactMsg'); // Footer year document.getElementById('year').textContent = new Date().getFullYear(); // Initialize counts updateCartCount();     
